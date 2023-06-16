@@ -1,10 +1,10 @@
-import { CONFIG_NEST_MODULE_ROOT } from '@config/nest'
 import { Global, Module, Provider } from '@nestjs/common'
-import { ZodService } from '@/util/zod'
 import { HttpModule } from '@nestjs/axios'
-import { AppModule } from '@app.module'
-import { TasksService } from '@/services/cron-task'
+import { CONFIG_NEST_MODULE_ROOT } from '@/config/nest'
 import { PrismaService } from '@/repository/database'
+import { ZodService } from '@/util/zod'
+import { TasksService } from '@/services/cron-task'
+import { AppModule } from '@app.module'
 
 const services: Provider[] = [
     ZodService,

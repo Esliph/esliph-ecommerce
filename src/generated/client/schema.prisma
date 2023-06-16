@@ -1,0 +1,58 @@
+generator client {
+    provider        = "prisma-client-js"
+    previewFeatures = ["views"]
+    output          = "../src/generated/client"
+}
+
+datasource db {
+    provider = "postgresql"
+    url      = env("DATABASE_URL")
+}
+
+enum PeopleType {
+    NP // Natural Person
+    LP // Legal Person
+}
+
+enum PeopleGender {
+    M // Masculine
+    F // Feminine
+}
+
+model People {
+    id       Int           @id @default(autoincrement())
+    email    String        @unique
+    name     String
+    birthday DateTime?
+    active   Boolean       @default(false)
+    type     PeopleType
+    gender   PeopleGender?
+    itin     String?       @unique
+    cnpj     String?       @unique
+    createAt DateTime      @default(now())
+    updateAt DateTime      @updatedAt
+    user     User[]
+
+    @@map("people")
+}
+
+enum UserType {
+    Master
+    Admin
+    Site
+}
+
+model User {
+    id       Int      @id @default(autoincrement())
+    people   People   @relation(fields: [peopleId], references: [id])
+    peopleId Int
+    email    String   @unique
+    username String   @unique
+    password String
+    active   Boolean  @default(false)
+    type     UserType
+    createAt DateTime @default(now())
+    updateAt DateTime @updatedAt
+
+    @@map("user")
+}
