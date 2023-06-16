@@ -1,3 +1,3 @@
 import { People } from '@prisma/client'
 
-export type UserModel = User
+export type PeopleModel = People
