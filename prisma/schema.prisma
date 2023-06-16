@@ -18,16 +18,23 @@ enum PeopleGender {
     F // Feminine
 }
 
+enum AddressType {
+    residential // residential
+    commercial // commercial
+}
+
 model Address {
-    id           Int     @id @default(autoincrement())
-    people       People? @relation(fields: [peopleId], references: [id])
-    peopleId     Int?
-    postalCode   String  @map("postal_code")
-    complement   String? @map("complement")
-    address      String?
-    neighborhood String?
-    city         String
-    state        String
+    id             Int     @id @default(autoincrement())
+    people         People? @relation(fields: [peopleId], references: [id])
+    peopleId       Int?
+    redencialType  AddressType  @map("redencial_type")
+    address        String
+    postalCode     String  @map("postal_code")
+    neighborhood   String
+    city           String
+    state          String
+    pointReference String?  @map("point_reference")
+    complement     String? @map("complement")
 
     @@map("address")
 }
@@ -36,12 +43,12 @@ model People {
     id        Int           @id @default(autoincrement())
     email     String        @unique
     name      String
-    birthday  DateTime?
     active    Boolean       @default(false)
     type      PeopleType
     gender    PeopleGender?
     itin      String?       @unique
     cnpj      String?       @unique
+    birthday  DateTime?
     createAt  DateTime      @default(now()) @map("create_at")
     updateAt  DateTime      @updatedAt @map("update_at")
     user      User[]
