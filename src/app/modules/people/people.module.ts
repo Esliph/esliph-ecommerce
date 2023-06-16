@@ -4,10 +4,7 @@ import { PeopleUseCaseModule } from '@modules/people/use-case.module'
 import { PeopleRepositoryModule } from '@modules/people/repository.module'
 
 @Module({
-    imports: [
-        PeopleRepositoryModule,
-        PeopleUseCaseModule
-    ],
-    controllers: [PeopleController],
+    imports: [PeopleRepositoryModule, PeopleUseCaseModule],
+    controllers: [PeopleController]
 })
-export class PeopleModule { }
+export class PeopleModule {}

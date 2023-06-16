@@ -1,15 +1,16 @@
 import { Result } from '@esliph/util'
 import { expect, describe, it } from 'vitest'
+import { z } from 'zod'
 
 interface CreateUserRepository {
     perform: (userData: UserSchema) => Promise<Result<UserSchema>>
 }
 
 interface UserSchema {
-    username: string;
-    email: string;
-    password: string;
-    age: number;
+    username: string
+    email: string
+    password: string
+    age: number
 }
 
 class CreateUserRepositoryMock implements CreateUserRepository {
@@ -55,5 +56,45 @@ describe('User: Create User', () => {
         expect(responseCreate.isSuccess()).toBe(true)
         expect(responseCreate.getResponse()).not.equal(undefined)
         expect(responseCreate.getStatus()).toBe(200)
+    })
+
+    it('Test', () => {
+        const CreatePeopleArgsSchema = z
+            .object({
+                name: z.string().trim().nonempty({ message: '"Name" is required' }),
+                email: z.string().trim().email({ message: 'Format "E-mail" invalid' }).nonempty({ message: '"Name" is required' }),
+                active: z.coerce.boolean().default(false),
+                type: z.enum(['NP', 'LP']),
+                gender: z.enum(['M', 'F']).optional(),
+                itin: z.string().trim().optional(),
+                cnpj: z.string().trim().optional(),
+                birthday: z.date().optional()
+            })
+            .refine(data => {
+                return data.itin || data.cnpj
+            }, {message: '"ITIN" or "CNPJ" is required', path: ["cnpj", "itin"]})
+            .refine(data => {
+                if (data.type == 'NP') {
+                    return data.itin
+                }
+                return true
+            }, {message: '"ITIN" is required', path: ["itin"]})
+            .refine(data => {
+                if (data.type == 'LP') {
+                    return data.cnpj
+                }
+                return true
+            }, {message: '"CNPJ" is required', path: ["cnpj"]})
+
+        const data: z.input<typeof CreatePeopleArgsSchema> = {
+            email: '',
+            name: '',
+            type: 'LP',
+            cnpj: "102"
+        }
+
+        const res = CreatePeopleArgsSchema.safeParse(data)
+
+        console.log(res.error)
     })
 })

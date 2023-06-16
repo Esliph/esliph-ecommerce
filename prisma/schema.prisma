@@ -46,8 +46,8 @@ model People {
     active    Boolean       @default(false)
     type      PeopleType
     gender    PeopleGender?
-    itin      String?       @unique
-    cnpj      String?       @unique
+    itin      String?       @unique @default("")
+    cnpj      String?       @unique @default("")
     birthday  DateTime?
     createAt  DateTime      @default(now()) @map("create_at")
     updateAt  DateTime      @updatedAt @map("update_at")
