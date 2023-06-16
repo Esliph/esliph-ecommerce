@@ -18,19 +18,34 @@ enum PeopleGender {
     F // Feminine
 }
 
+model Address {
+    id           Int     @id @default(autoincrement())
+    people       People? @relation(fields: [peopleId], references: [id])
+    peopleId     Int?
+    postalCode   String  @map("postal_code")
+    complement   String? @map("complement")
+    address      String?
+    neighborhood String?
+    city         String
+    state        String
+
+    @@map("address")
+}
+
 model People {
-    id       Int           @id @default(autoincrement())
-    email    String        @unique
-    name     String
-    birthday DateTime?
-    active   Boolean       @default(false)
-    type     PeopleType
-    gender   PeopleGender?
-    itin     String?       @unique
-    cnpj     String?       @unique
-    createAt DateTime      @default(now())
-    updateAt DateTime      @updatedAt
-    user     User[]
+    id        Int           @id @default(autoincrement())
+    email     String        @unique
+    name      String
+    birthday  DateTime?
+    active    Boolean       @default(false)
+    type      PeopleType
+    gender    PeopleGender?
+    itin      String?       @unique
+    cnpj      String?       @unique
+    createAt  DateTime      @default(now()) @map("create_at")
+    updateAt  DateTime      @updatedAt @map("update_at")
+    user      User[]
+    addresses Address[]
 
     @@map("people")
 }
@@ -43,15 +58,15 @@ enum UserType {
 
 model User {
     id       Int      @id @default(autoincrement())
-    people   People   @relation(fields: [peopleId], references: [id])
-    peopleId Int
+    people   People   @relation(fields: [peopleId], references: [id], onDelete: Restrict)
+    peopleId Int      @map("people_id")
     email    String   @unique
     username String   @unique
     password String
     active   Boolean  @default(false)
     type     UserType
-    createAt DateTime @default(now())
-    updateAt DateTime @updatedAt
+    createAt DateTime @default(now()) @map("create_at")
+    updateAt DateTime @updatedAt @map("update_at")
 
     @@map("user")
 }
