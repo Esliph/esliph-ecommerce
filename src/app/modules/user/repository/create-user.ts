@@ -2,11 +2,11 @@ import { UserModel } from '@modules/user'
 import { CreateUserArgs, ICreateUserRepository } from '@modules/user/use-case/create-user'
 import { Result } from '@esliph/util'
 import { Injectable } from '@nestjs/common'
-import { PrismaService } from '@/repository/database'
+import { PrismaService } from '@/services/database'
 
 @Injectable()
 export class CreateUserRepository implements ICreateUserRepository {
-    constructor(private readonly repo: PrismaService) {}
+    constructor(private readonly repo: PrismaService) { }
 
     async perform(userData: CreateUserArgs): Promise<Result<UserModel>> {
         const response = await this.repo.user

@@ -1,7 +1,7 @@
 import { NestFactory } from '@nestjs/core'
 import { NestApplicationOptions } from '@nestjs/common/interfaces'
 import { FastifyAdapter, NestFastifyApplication } from '@nestjs/platform-fastify'
-import { getEnv } from '@lib/@esliph/util/get-env'
+import { getEnv } from '@/lib/@esliph/util/get-env'
 import { MainModule } from '@/main.module'
 import { CustomLogger } from '@/util/logger'
 import { ValidationPipe } from '@nestjs/common'

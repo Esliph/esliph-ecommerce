@@ -1,5 +1,5 @@
 import { Result } from '@esliph/util'
-import { PrismaService } from '@/repository/database'
+import { PrismaService } from '@/services/database'
 import { ICreatePeopleRepository } from '@modules/people/use-case/create-people'
 import { PeopleModel, People } from '@modules/people/schema'
 

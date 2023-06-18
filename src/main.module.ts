@@ -1,7 +1,7 @@
 import { Global, Module, Provider } from '@nestjs/common'
 import { HttpModule } from '@nestjs/axios'
 import { CONFIG_NEST_MODULE_ROOT } from '@/config/nest'
-import { PrismaService } from '@/repository/database'
+import { PrismaService } from '@/services/database'
 import { ZodService } from '@/util/zod'
 import { TasksService } from '@/services/cron-task'
 import { AppModule } from '@app.module'
