@@ -5,7 +5,9 @@
         "./docs",
         "./dist",
         "./public",
+        "**/*_sketch",
         "./prisma",
-        "**/*spec.ts"
+        "**/*spec.ts",
+        "**/*sketch.ts",
     ]
 }

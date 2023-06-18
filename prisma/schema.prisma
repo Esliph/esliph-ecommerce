@@ -24,17 +24,17 @@ enum AddressType {
 }
 
 model Address {
-    id             Int     @id @default(autoincrement())
-    people         People? @relation(fields: [peopleId], references: [id])
+    id             Int         @id @default(autoincrement())
+    people         People?     @relation(fields: [peopleId], references: [id])
     peopleId       Int?
-    redencialType  AddressType  @map("redencial_type")
+    redencialType  AddressType @map("redencial_type")
     address        String
-    postalCode     String  @map("postal_code")
+    zipCode        String      @map("zip_code")
     neighborhood   String
     city           String
     state          String
-    pointReference String?  @map("point_reference")
-    complement     String? @map("complement")
+    pointReference String?     @map("point_reference")
+    complement     String?     @map("complement")
 
     @@map("address")
 }

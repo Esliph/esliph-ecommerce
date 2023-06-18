@@ -7,7 +7,8 @@ export class ZodService {
 
     perform<U extends z.Schema>(data: z.input<U>, schema: U): Result<z.output<U>> {
         try {
-            const resParse = schema.safeParse(data)
+            const resParse = schema.parse(data)
+
             const result = Result.success<z.output<U>>(resParse)
 
             return result

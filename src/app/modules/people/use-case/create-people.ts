@@ -1,9 +1,9 @@
-import { Injectable } from '@nestjs/common'
 import { IsString, IsNotEmpty, IsNumber, IsBoolean, IsDate, IsOptional, IsIn } from 'class-validator'
+import { Injectable } from '@nestjs/common'
 import { Result } from '@esliph/util'
 import { z } from 'zod'
 import { ZodService } from '@/util/zod'
-import { People, PeopleGender, PeopleModel, PeopleType } from '@modules/people'
+import { People, PeopleModel, PeopleGender, PeopleType } from '@modules/people/schema'
 
 export class CreatePeopleDTO {
     @IsString()
@@ -46,58 +46,48 @@ export const CreatePeopleArgsSchema = z
         name: z.string().trim().nonempty({ message: '"Name" is required' }),
         email: z.string().trim().email({ message: 'Format "E-mail" invalid' }).nonempty({ message: '"E-mail" is required' }),
         active: z.coerce.boolean().default(false),
-        type: z.enum(['NP', 'LP']).refine(val => !!val, { message: '"Type" is required' }),
-        gender: z.enum(['M', 'F']).optional(),
+        type: z.nativeEnum(PeopleType).refine(val => !!val, { message: '"Type" is required' }),
+        gender: z.nativeEnum(PeopleGender).optional(),
         itin: z.string().trim().optional(),
         cnpj: z.string().trim().optional(),
         birthday: z.date().optional()
     })
-    .refine(
-        data => {
-            return data.itin || data.cnpj
-        },
-        { message: '"ITIN" or "CNPJ" is required', path: ['cnpj', 'itin'] }
-    )
-    .refine(
-        data => {
-            if (data.type == 'NP') {
-                return data.itin
-            }
-            return true
-        },
-        { message: '"ITIN" is required', path: ['itin'] }
-    )
-    .refine(
-        data => {
-            if (data.type == 'LP') {
-                return data.cnpj
-            }
-            return true
-        },
-        { message: '"CNPJ" is required', path: ['cnpj'] }
-    )
+    .refine(data => {
+        return data.itin || data.cnpj
+    }, { message: '"ITIN" or "CNPJ" is required', path: ['cnpj', 'itin'] })
+    .refine(data => {
+        if (data.type == PeopleType.NP) {
+            return data.itin
+        }
+        return true
+    }, { message: '"ITIN" is required', path: ['itin'] })
+    .refine(data => {
+        if (data.type == PeopleType.LP) {
+            return data.cnpj
+        }
+        return true
+    }, { message: '"CNPJ" is required', path: ['cnpj'] })
 
 export type CreatePeopleArgs = z.input<typeof CreatePeopleArgsSchema>
 
 export abstract class ICreatePeopleRepository {
-    perform: (PeopleData: CreatePeopleArgs) => Promise<Result<PeopleModel>>
+    perform: (PeopleData: People) => Promise<Result<PeopleModel>>
 }
 
 @Injectable()
 export class CreatePeople {
-    constructor(private readonly createPeopleRepository: ICreatePeopleRepository, private readonly zod: ZodService) {}
+    constructor(
+        private readonly createPeopleRepository: ICreatePeopleRepository,
+        private readonly zod: ZodService
+    ) { }
 
     async perform(args: CreatePeopleArgs) {
-        const resArgsDTO = this.zod.perform(args, CreatePeopleArgsSchema)
+        const peopleDTO = this.zod.perform(args, CreatePeopleArgsSchema)
 
-        if (!resArgsDTO.isSuccess()) {
-            return resArgsDTO
-        }
+        if (!peopleDTO.isSuccess()) { return peopleDTO.getResult() }
 
-        const people = resArgsDTO.getResponse()
+        const response = await this.createPeopleRepository.perform(peopleDTO.getResponse())
 
-        const responseRepo = await this.createPeopleRepository.perform(people)
-
-        return responseRepo
+        return response.getResult()
     }
 }

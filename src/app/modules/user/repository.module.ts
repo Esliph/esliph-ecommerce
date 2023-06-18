@@ -1,12 +1,10 @@
 import { Global, Module, Provider } from '@nestjs/common'
 import { CreateUserRepository } from '@modules/user/repository/create-user'
-import { UserDependencies } from '@modules/user/dependencies'
 
-const services: Provider[] = [CreateUserRepository, ...UserDependencies]
+const services: Provider[] = [CreateUserRepository]
 
-@Global()
 @Module({
     providers: [...services],
     exports: [...services]
 })
-export class UserRepositoryModule {}
+export class UserRepositoryModule { }

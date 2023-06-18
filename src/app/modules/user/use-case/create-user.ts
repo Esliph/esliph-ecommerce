@@ -14,7 +14,7 @@ export class CreateUserDTO {
 export const CreateUserArgsSchema = z.object({
     username: z.string().nonempty({ message: '"Username" is required' }),
     email: z.string().email({ message: 'Format "e-mail" invalid' }).nonempty({ message: '"E-mail" is required' }),
-    age: z.number().min(1, { message: '"Age" min is 0 (1) year' }),
+    age: z.number().min(1, { message: '"Age" min is 1 year' }),
     password: z
         .string()
         .nonempty({ message: '"Password" is required' })
@@ -25,7 +25,7 @@ export const CreateUserArgsSchema = z.object({
         })
 })
 
-export type CreateUserArgs = z.infer<typeof CreateUserArgsSchema>
+export type CreateUserArgs = z.input<typeof CreateUserArgsSchema>
 
 export abstract class ICreateUserRepository {
     perform: (userData: CreateUserArgs) => Promise<Result<UserModel>>
@@ -33,7 +33,7 @@ export abstract class ICreateUserRepository {
 
 @Injectable()
 export class CreateUser {
-    constructor(private readonly createUserRepository: ICreateUserRepository, private readonly zod: ZodService) {}
+    constructor(private readonly createUserRepository: ICreateUserRepository, private readonly zod: ZodService) { }
 
     async perform(args: CreateUserArgs) {
         const resArgsDTO = this.zod.perform(args, CreateUserArgsSchema)

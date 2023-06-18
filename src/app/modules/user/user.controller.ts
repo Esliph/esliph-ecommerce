@@ -9,7 +9,10 @@ export class UserController {
     @Post('/register')
     @UsePipes(new ValidationPipe())
     async create(@Body() body: CreateUserDTO, @Res() res) {
+        // @ts-expect-error
         const response = await this.createUser.perform(body)
+
+        console.log(`[Server]: Request="/users/register" Response="${response.getStatus()}"`)
 
         return res.status(response.getStatus()).send(response.getResult())
     }

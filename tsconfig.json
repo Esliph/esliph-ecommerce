@@ -1,17 +1,22 @@
 {
     "compilerOptions": {
         "module": "commonjs",
-        "lib": ["ES6"],
-        "types": ["node", "@prisma/client"],
+        "lib": [
+            "ES6"
+        ],
+        "types": [
+            "node",
+            "@prisma/client"
+        ],
         "declaration": false,
         "removeComments": true,
         "emitDecoratorMetadata": true,
         "experimentalDecorators": true,
         "allowSyntheticDefaultImports": true,
-        "target": "es2020",
+        "target": "es2017",
         "alwaysStrict": true,
         "checkJs": false,
-        "diagnostics": true,
+        "diagnostics": false,
         "sourceMap": false,
         "outDir": "./dist",
         "baseUrl": "./",
@@ -25,13 +30,20 @@
         "forceConsistentCasingInFileNames": true,
         "noFallthroughCasesInSwitch": false,
         "moduleResolution": "node",
+        "noEmitHelpers": true,
         "esModuleInterop": true,
         "strict": true,
         "resolveJsonModule": true,
         "paths": {
-            "@/*": ["./src/*"],
-            "@*": ["./src/app/*"],
-            "$*": ["./*"]
+            "@/*": [
+                "./src/*"
+            ],
+            "@*": [
+                "./src/app/*"
+            ],
+            "$*": [
+                "./*"
+            ]
         }
     }
 }

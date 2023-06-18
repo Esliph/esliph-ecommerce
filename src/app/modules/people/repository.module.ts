@@ -8,4 +8,4 @@ const services: Provider[] = [...PeopleDependencies]
     providers: [...services],
     exports: [...services]
 })
-export class PeopleRepositoryModule {}
+export class PeopleRepositoryModule { }
