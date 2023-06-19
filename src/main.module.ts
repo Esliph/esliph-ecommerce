@@ -9,7 +9,7 @@ import { AppModule } from '@app.module'
 const services: Provider[] = [
     ZodService,
     TasksService,
-    PrismaService
+    PrismaService,
 ]
 
 @Global()

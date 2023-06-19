@@ -11,7 +11,7 @@
         "start:nest": "nest start --env-production",
         "start:dev": "tsx watch -r tsconfig-paths/register src/index.ts",
         "start:test": "tsx watch -r tsconfig-paths/register src/index.ts --env=test",
-        "start:debug": "tsx watch -r tsconfig-paths/register src/index.ts --debug",
+        "start:debug": "tsx watch -r tsconfig-paths/register src/index.ts --debug --inspect",
         "start:nest:dev": "nest start --watch",
         "start:nest:debug": "nest start --watch --debug",
         "start:nest:test": "nest start --watch --env=test",
