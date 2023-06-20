@@ -1,5 +1,5 @@
 import { INestApplication, Injectable, OnModuleInit } from '@nestjs/common'
-import { Prisma, PrismaClient } from '@prisma/client'
+import { Prisma, PrismaClient, UnwrapTuple } from '@prisma/client'
 import { getFlag } from '@esliph/util'
 
 const logs: ('query' | 'info' | 'warn' | 'error')[] = []
@@ -14,8 +14,16 @@ if (getFlag('--debug')) {
     logs.length == 0 && logs.push('query', 'info', 'warn', 'error')
 }
 
+export abstract class DatabaseService extends PrismaClient implements OnModuleInit {
+    abstract onModuleInit(): any
+}
+
+export abstract class ModelRepository implements Prisma.PeopleDelegate<false> {
+    
+}
+
 @Injectable()
-export class PrismaService extends PrismaClient implements OnModuleInit {
+export class PrismaService extends PrismaClient implements OnModuleInit, DatabaseService {
     constructor() {
         super({ log: logs })
     }
