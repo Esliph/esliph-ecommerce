@@ -1,5 +1,5 @@
 import { LoggerService as LoggerS, LogLevel } from '@nestjs/common'
-import { getAllFlags, getFlag } from '@esliph/util'
+import { getAllFlags, getFlag, Console, ConsoleConfig } from '@esliph/util'
 
 const flagsOptions = getAllFlags()
 
@@ -37,17 +37,9 @@ if (Object.keys(flagsOptions).length > 0) {
     flagsOptions['--debug'] && console.log(`[Server:Options] Start debug=${logs}`)
 }
 
-export class LoggerService implements LoggerS {
-    log(message: any, ...optionalParams: any[]) {
-        console.log(message)
-    }
-
-    error(message: any, ...optionalParams: any[]) {
-        console.log(message)
-    }
-
-    warn(message: any, ...optionalParams: any[]) {
-        console.log(message)
+export class LoggerService extends Console implements LoggerS {
+    constructor(args?: { context?: string; config?: ConsoleConfig; clearMessage?: boolean }) {
+        super(args)
     }
 
     debug?(message: any, ...optionalParams: any[]) {
