@@ -5,6 +5,7 @@
         "./docs",
         "./dist",
         "./public",
+        "./src/generators",
         "**/*_sketch",
         "./prisma",
         "**/*spec.ts",

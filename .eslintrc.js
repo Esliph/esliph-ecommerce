@@ -43,6 +43,7 @@ module.exports = {
         ],
         "eqeqeq": "off",
         "no-trailing-spaces": "warn",
+        "@typescript-eslint/no-var-requires": "off",
         "no-multiple-empty-lines": "off",
         "no-inline-comments": "off",
         "no-explicit-any": "off",
