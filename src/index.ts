@@ -3,12 +3,12 @@ import { NestApplicationOptions } from '@nestjs/common/interfaces'
 import { FastifyAdapter, NestFastifyApplication } from '@nestjs/platform-fastify'
 import { getEnv } from '@/lib/@esliph/util/get-env'
 import { MainModule } from '@/main.module'
-import { ConsoleLogger } from '@/services/logger'
+import { ConsoleLoggerCore } from '@/services/logger'
 import { ValidationPipe } from '@nestjs/common'
 
 const PORT = getEnv({ name: 'PORT', default: 8080 })
 const options: NestApplicationOptions = {
-    logger: new ConsoleLogger(),
+    logger: new ConsoleLoggerCore(),
     abortOnError: false,
     cors: true,
     bufferLogs: true

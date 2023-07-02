@@ -10,5 +10,6 @@
         "./prisma",
         "**/*spec.ts",
         "**/*sketch.ts",
+        "./src/yo"
     ]
 }
